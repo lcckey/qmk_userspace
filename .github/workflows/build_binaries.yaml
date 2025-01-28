@@ -67,6 +67,6 @@ jobs:
     if: always() && !cancelled()
     needs: build
     with:
-      release_name: Vial miryoku
+      release_name: Vial-miryoku
 
 
