@@ -48,6 +48,8 @@ jobs:
         run: |
           make vial-qmk-clean
           qmk config user.overlay_dir=$GITHUB_WORKSPACE/qmk_userspace
+          cat /home/runner/.config/qmk/qmk.ini
+          ls /home/runner/work/qmk_userspace/qmk_userspace/qmk_userspace
           kb=crkbd make vial-qmk-init
           kb=crkbd kr=rev4_1/mini km=miryoku make vial-qmk-compile
           kb=crkbd kr=rev4_1/standard km=miryoku make vial-qmk-compile
