@@ -41,7 +41,7 @@ jobs:
           qmk setup -y -H $GITHUB_WORKSPACE/qmk_firmware
 
       - name: Install pip dependencies
-        run: python3 -m pip install -r $GITHUB_WORKSPACE/src/vial-kb/vial-qmk/requirements.txt
+        run: python3 -m pip install -r $GITHUB_WORKSPACE/kbd_firmware/src/vial-kb/vial-qmk/requirements.txt
 
       - name: Build Crkbd v4.1 miryoku
         working-directory: $GITHUB_WORKSPACE/kbd_firmware
