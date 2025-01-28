@@ -47,11 +47,13 @@ jobs:
         run: |
           make vial-qmk-clean
           qmk config user.overlay_dir=$GITHUB_WORKSPACE
-          cat /home/runner/.config/qmk/qmk.ini
           kb=crkbd make vial-qmk-init
-          cp kbd_firmware/keyboards/crkbd/vial-kb/vial-qmk/keymaps/vial_mini/vial.json $GITHUB_WORKSPACE/layouts/split_3x5_3/miryoku/vial.json
+          pwd
+          ls
+          ls keyboards
+          cp keyboards/crkbd/vial-kb/vial-qmk/keymaps/vial_mini/vial.json $GITHUB_WORKSPACE/layouts/split_3x5_3/miryoku/vial.json
           kb=crkbd kr=rev4_1/mini km=miryoku make vial-qmk-compile
-          cp kbd_firmware/keyboards/crkbd/vial-kb/vial-qmk/keymaps/vial/vial.json $GITHUB_WORKSPACE/layouts/split_3x5_3/miryoku/vial.json
+          cp keyboards/crkbd/vial-kb/vial-qmk/keymaps/vial/vial.json $GITHUB_WORKSPACE/layouts/split_3x5_3/miryoku/vial.json
           kb=crkbd kr=rev4_1/standard km=miryoku make vial-qmk-compile
 
       - name: Upload binaries
