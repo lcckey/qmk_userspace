@@ -47,6 +47,7 @@ jobs:
         working-directory: kbd_firmware
         run: |
           make vial-qmk-clean
+          qmk config user.overlay_dir=$GITHUB_WORKSPACE/qmk_userspace
           kb=crkbd make vial-qmk-init
           kb=crkbd kr=rev4_1/mini km=miryoku make vial-qmk-compile
           kb=crkbd kr=rev4_1/standard km=miryoku make vial-qmk-compile
