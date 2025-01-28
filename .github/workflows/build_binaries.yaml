@@ -49,8 +49,10 @@ jobs:
           qmk config user.overlay_dir=$GITHUB_WORKSPACE
           cat /home/runner/.config/qmk/qmk.ini
           kb=crkbd make vial-qmk-init
-          VIAL_JSON=kbd_firmware/keyboards/crkbd/vial-kb/vial-qmk/keymaps/vial_mini/vial.json kb=crkbd kr=rev4_1/mini km=miryoku make vial-qmk-compile
-          VIAL_JSON=kbd_firmware/keyboards/crkbd/vial-kb/vial-qmk/keymaps/vial/vial.json kb=crkbd kr=rev4_1/standard km=miryoku make vial-qmk-compile
+          cp kbd_firmware/keyboards/crkbd/vial-kb/vial-qmk/keymaps/vial_mini/vial.json $GITHUB_WORKSPACE/layouts/split_3x5_3/miryoku/vial.json
+          kb=crkbd kr=rev4_1/mini km=miryoku make vial-qmk-compile
+          cp kbd_firmware/keyboards/crkbd/vial-kb/vial-qmk/keymaps/vial/vial.json $GITHUB_WORKSPACE/layouts/split_3x5_3/miryoku/vial.json
+          kb=crkbd kr=rev4_1/standard km=miryoku make vial-qmk-compile
 
       - name: Upload binaries
         uses: actions/upload-artifact@v4
@@ -67,6 +69,6 @@ jobs:
     if: always() && !cancelled()
     needs: build
     with:
-      release_name: Vial-miryoku
+      release_name: Vial_miryoku
 
 
