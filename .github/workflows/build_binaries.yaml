@@ -44,7 +44,7 @@ jobs:
         run: python3 -m pip install -r kbd_firmware/src/vial-kb/vial-qmk/requirements.txt
 
       - name: Build Crkbd v4.1 miryoku
-        working-directory: $GITHUB_WORKSPACE/kbd_firmware
+        working-directory: kbd_firmware
         run: |
           make vial-qmk-clean
           kb=crkbd make vial-qmk-init
