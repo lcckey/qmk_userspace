@@ -21,7 +21,7 @@ jobs:
       - name: Checkout kbd_firmware Repo
         uses: actions/checkout@v4
         with:
-          path: $GITHUB_WORKSPACE/kbd_firmware
+          path: kbd_firmware
           repository: 'lcckey/kbd_firmware'
           token: ${{ github.token }}
           submodules: recursive
@@ -41,7 +41,7 @@ jobs:
           qmk setup -y -H $GITHUB_WORKSPACE/qmk_firmware
 
       - name: Install pip dependencies
-        run: python3 -m pip install -r $GITHUB_WORKSPACE/kbd_firmware/src/vial-kb/vial-qmk/requirements.txt
+        run: python3 -m pip install -r kbd_firmware/src/vial-kb/vial-qmk/requirements.txt
 
       - name: Build Crkbd v4.1 miryoku
         working-directory: $GITHUB_WORKSPACE/kbd_firmware
