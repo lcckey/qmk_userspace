@@ -2,25 +2,70 @@ name: Build QMK firmware
 
 on:
   push:
+    branches: [ "actions" ]
   workflow_dispatch:
-  schedule:
-    - cron: '0 0 1 * *'
 
-permissions:
-  contents: write
 
 jobs:
   build:
-    name: 'QMK Userspace Build'
-    uses: qmk/.github/.github/workflows/qmk_userspace_build.yml@main
-    with:
-      qmk_repo: qmk/qmk_firmware
-      qmk_ref: master
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v4
+        with:
+          path: $GITHUB_WORKSPACE/qmk_userspace
+          token: ${{ github.token }}
+    
+      - name: Checkout kbd_firmware Repo
+        uses: actions/checkout@v4
+        with:
+          path: $GITHUB_WORKSPACE/kbd_firmware
+          repository: 'lcckey/kbd_firmware'
+          token: ${{ github.token }}
+          submodules: recursive
+
+      - name: Install QMK CLI
+        run: |
+          python3 -m pip install --upgrade qmk
+
+      - name: Configure QMK CLI
+        run: |
+          qmk config userspace_compile.parallel=$(nproc 2>/dev/null || sysctl -n hw.ncpu 2>/dev/null || getconf _NPROCESSORS_ONLN 2>/dev/null)
+          qmk config user.qmk_home=$GITHUB_WORKSPACE/qmk_firmware
+          qmk config user.overlay_dir=$GITHUB_WORKSPACE/qmk_userspace
+
+      - name: Setup QMK
+        run: |
+          qmk setup -y -H $GITHUB_WORKSPACE/qmk_firmware
+
+      - name: Install pip dependencies
+        run: python3 -m pip install -r $GITHUB_WORKSPACE/src/vial-kb/vial-qmk/requirements.txt
+
+      - name: Build Crkbd v4.1 miryoku
+        working-directory: $GITHUB_WORKSPACE/kbd_firmware
+        run: |
+          make vial-qmk-clean
+          kb=crkbd make vial-qmk-init
+          kb=crkbd kr=rev4_1/mini km=miryoku make vial-qmk-compile
+          kb=crkbd kr=rev4_1/standard km=miryoku make vial-qmk-compile
+
+      - name: Upload binaries
+        uses: actions/upload-artifact@v4
+        if: always() && !cancelled()
+        continue-on-error: true
+        with:
+          name: Firmware
+          path: |
+            **/*.uf2
 
   publish:
-    name: 'QMK Userspace Publish'
+    name: 'Vial QMK Publish'
     uses: qmk/.github/.github/workflows/qmk_userspace_publish.yml@main
     if: always() && !cancelled()
     needs: build
     with:
-      release_name: miryoku
+      release_name: Vial miryoku
+
+
