@@ -1,8 +1,6 @@
 name: Build QMK firmware
 
 on:
-  push:
-    branches: [ "actions" ]
   workflow_dispatch:
 
 
