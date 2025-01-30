@@ -90,3 +90,95 @@ combo_t key_combos[] = {
   COMBO(thumbcombos_fun, KC_APP)
 };
 #endif
+
+#ifdef RGB_MATRIX_ENABLE
+# ifdef LAYOUT_split_3x5_3_ex2
+bool rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
+    uint8_t LED_LIST[] = {8,7,0,20,27,28};
+    switch (get_highest_layer(layer_state|default_layer_state)) {
+    case U_EXTRA:
+        rgb_matrix_set_color(38, RGB_BLUE); break;
+    case U_TAP:
+        rgb_matrix_set_color(18, RGB_GREEN); break;
+    case U_EXTRATAP:
+        rgb_matrix_set_color(18, RGB_BLUE);
+        rgb_matrix_set_color(38, RGB_BLUE); break;
+    case U_MEDIA:
+        if (get_highest_layer(default_layer_state) != 4) {
+            LED_LIST[0] = 6;
+        }
+        for (uint8_t i = 0; i < sizeof(LED_LIST); i++) {
+            rgb_matrix_set_color(LED_LIST[i], RGB_PURPLE);
+        };
+        break;
+    case U_NAV:
+        if (get_highest_layer(default_layer_state) != 5) {
+            LED_LIST[1] = 6;
+        }
+        for (uint8_t i = 0; i < sizeof(LED_LIST); i++) {
+            rgb_matrix_set_color(LED_LIST[i], RGB_CYAN);
+        };
+        break;
+    case U_MOUSE:
+        if (get_highest_layer(default_layer_state) != 6) {
+            LED_LIST[2] = 6;
+        }
+        for (uint8_t i = 0; i < sizeof(LED_LIST); i++) {
+            rgb_matrix_set_color(LED_LIST[i], RGB_YELLOW);
+        };
+        break;
+    case U_SYM:
+        if (get_highest_layer(default_layer_state) != 7) {
+            LED_LIST[3] = 26;
+        }
+        for (uint8_t i = 0; i < sizeof(LED_LIST); i++) {
+            rgb_matrix_set_color(LED_LIST[i], RGB_GREEN);
+        };
+        break;
+    case U_NUM:
+        if (get_highest_layer(default_layer_state) != 8) {
+            LED_LIST[4] = 26;
+        }
+        for (uint8_t i = 0; i < sizeof(LED_LIST); i++) {
+            rgb_matrix_set_color(LED_LIST[i], RGB_BLUE);
+        };
+        break;
+    case U_FUN:
+        if (get_highest_layer(default_layer_state) != 9) {
+            LED_LIST[5] = 26;
+        }
+        for (uint8_t i = 0; i < sizeof(LED_LIST); i++) {
+            rgb_matrix_set_color(LED_LIST[i], RGB_RED);
+        };
+        break;
+    case U_BUTTON:
+        for (uint8_t i = 0; i < sizeof(LED_LIST); i++) {
+            rgb_matrix_set_color(LED_LIST[i], RGB_ORANGE);
+        };
+        break;
+    default: // for any other layer, set indicators to off
+        rgb_matrix_set_color(18, RGB_BLACK);
+        rgb_matrix_set_color(19, RGB_BLACK);
+        rgb_matrix_set_color(38, RGB_BLACK);
+        rgb_matrix_set_color(39, RGB_BLACK); break;
+    }
+    if (get_highest_layer(default_layer_state|layer_state) > 3) {
+        switch(get_highest_layer(default_layer_state)) {
+        case 0:
+            rgb_matrix_set_color(4, RGB_GREEN); break;
+            rgb_matrix_set_color(23, RGB_GREEN); break;
+        case 1:
+            rgb_matrix_set_color(12, RGB_GREEN); break;
+            rgb_matrix_set_color(31, RGB_GREEN); break;
+        case 2:
+            rgb_matrix_set_color(11, RGB_BLUE); break;
+            rgb_matrix_set_color(24, RGB_BLUE); break;
+        case 3:
+            rgb_matrix_set_color(17, RGB_BLUE); break;
+            rgb_matrix_set_color(32, RGB_BLUE); break;
+        }
+    }
+    return false;
+}
+# endif
+#endif
