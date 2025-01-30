@@ -43,7 +43,9 @@
 
 // If Vial is enabled, replace tap dances with corresponding keys
 #if defined (VIAL_ENABLE)
+  #if !defined (U_TD_KC_BOOT)
   #define U_TD_KC_BOOT QK_BOOT
+  #endif
   #define U_TD_TAP DF(U_TAP)
   #define U_TD_EXTRA DF(U_EXTRA)
   #define U_TD_BASE DF(U_BASE)
